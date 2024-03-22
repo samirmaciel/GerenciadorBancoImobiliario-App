@@ -64,7 +64,7 @@ fun GerenciadorBancoImobiliarioTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = SfProRoundedTypography,
         content = content
     )
 }

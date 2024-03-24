@@ -5,18 +5,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.BANK_HOME_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.ENTER_ROOM_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.INITIAL_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen.InitialScreen
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen.InitialScreenViewModel
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYERS_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYER_HOME_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.SEND_MONEY_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.TRANSACTION_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.GerenciadorBancoImobiliarioTheme
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,23 +34,33 @@ class MainActivity : ComponentActivity() {
                 ) {
                     
                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "InitialScreen" ){
-                        composable("InitialScreen"){
-                            InitialScreen()
+                    NavHost(navController = navController, startDestination = INITIAL_SCREEN ){
+                        composable(INITIAL_SCREEN){
+
+                            val viewModel by viewModel<InitialScreenViewModel>()
+
+                            InitialScreen(viewModel, onNewGame = {userName ->
+                                navController.navigate(PLAYERS_SCREEN + "/$userName")
+                            }, onEnterGame = {userName ->
+                                navController.navigate(ENTER_ROOM_SCREEN + "/$userName")
+                            })
                         }
-                        composable("PlayersScreen"){
+                        composable(PLAYERS_SCREEN){
 
                         }
-                        composable("PlayerHomeScreen"){
+                        composable(PLAYER_HOME_SCREEN){
 
                         }
-                        composable("BankHomeScreen"){
+                        composable(BANK_HOME_SCREEN){
 
                         }
-                        composable("TransactionsScreen"){
+                        composable(TRANSACTION_SCREEN){
 
                         }
-                        composable("SendMoneyScreen"){
+                        composable(SEND_MONEY_SCREEN){
+
+                        }
+                        composable(ENTER_ROOM_SCREEN){
 
                         }
                     }

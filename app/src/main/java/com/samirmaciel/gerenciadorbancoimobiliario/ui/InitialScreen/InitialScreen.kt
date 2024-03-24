@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -20,14 +21,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.blue
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.dark_yellow
 
 
 @Composable
 fun InitialScreen(viewModel: InitialScreenViewModel, onNewGame: (String) -> Unit, onEnterGame: (String) -> Unit){
-
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -42,17 +45,19 @@ fun InitialScreen(viewModel: InitialScreenViewModel, onNewGame: (String) -> Unit
             .padding(top = 50.dp), text = "Gerenciador Banco Imobiliário", style = SfProRoundedTypography.titleLarge)
 
         CustomTextField(modifier = Modifier
-            .fillMaxWidth(), hint = "Seu nome", value = userName) {
-            userName = it
+            .fillMaxWidth(), hint = "Seu nome", value = userName, onTextChange = { text ->
+            userName = text
             viewModel.validateUserName(userName)
-        }
+        })
 
-        Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.Bottom) {
-            Button(modifier = Modifier.weight(1f), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = { onNewGame(userName) }) {
+        Row(modifier = Modifier
+            .weight(1f)
+            .padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.Top) {
+            Button(modifier = Modifier.weight(1f), colors = ButtonDefaults.buttonColors( containerColor = blue), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = { onNewGame(userName) }) {
                 Text(text = "Novo jogo", style = SfProRoundedTypography.labelMedium)
             }
-            Button(modifier = Modifier.weight(1f), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = {onEnterGame(userName)}) {
-                Text(text = "Entrar em um jogo", style = SfProRoundedTypography.labelMedium)
+            Button(modifier = Modifier.weight(1f), colors = ButtonDefaults.buttonColors( containerColor = dark_yellow), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = {onEnterGame(userName)}) {
+                Text(text = "Entrar em um jogo", style = SfProRoundedTypography.labelMedium.copy(color = if(userNameIsValid.value) Color.Black else Color.Gray))
             }
         }
 
@@ -77,6 +82,6 @@ fun CustomTextField(
                     style = SfProRoundedTypography.labelSmall.copy(color = Color.Gray),
                 )
         }, value = value,
-        onValueChange = onTextChange
+        onValueChange = onTextChange,
     )
 }

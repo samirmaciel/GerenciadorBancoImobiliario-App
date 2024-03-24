@@ -2,12 +2,10 @@ package com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen
 
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -15,6 +13,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,26 +26,32 @@ import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypograp
 
 
 @Composable
-fun InitialScreen(){
+fun InitialScreen(viewModel: InitialScreenViewModel, onNewGame: (String) -> Unit, onEnterGame: (String) -> Unit){
+
 
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(30.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
 
         var userName by remember { mutableStateOf("") }
+        val userNameIsValid = viewModel.userNameIsValid.collectAsState()
 
-        Text(modifier = Modifier.fillMaxWidth().weight(1f).padding(top = 50.dp), text = "Gerenciador Banco Imobiliário", style = SfProRoundedTypography.titleLarge)
+        Text(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)
+            .padding(top = 50.dp), text = "Gerenciador Banco Imobiliário", style = SfProRoundedTypography.titleLarge)
 
         CustomTextField(modifier = Modifier
             .fillMaxWidth(), hint = "Seu nome", value = userName) {
             userName = it
+            viewModel.validateUserName(userName)
         }
 
         Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.Bottom) {
-            Button(modifier = Modifier.weight(1f), shape = RoundedCornerShape(5.dp), onClick = { /*TODO*/ }) {
+            Button(modifier = Modifier.weight(1f), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = { onNewGame(userName) }) {
                 Text(text = "Novo jogo", style = SfProRoundedTypography.labelMedium)
             }
-            Button(modifier = Modifier.weight(1f), shape = RoundedCornerShape(5.dp), onClick = { /*TODO*/ }) {
+            Button(modifier = Modifier.weight(1f), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = {onEnterGame(userName)}) {
                 Text(text = "Entrar em um jogo", style = SfProRoundedTypography.labelMedium)
             }
         }

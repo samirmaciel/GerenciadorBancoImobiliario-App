@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.BANK_HOME_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.ENTER_ROOM_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.EnterRoomScreen.EnterRoomScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.INITIAL_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen.InitialScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen.InitialScreenViewModel
@@ -45,10 +46,10 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(ENTER_ROOM_SCREEN + "/$userName")
                             })
                         }
-                        composable(PLAYERS_SCREEN){
+                        composable("$PLAYER_HOME_SCREEN/{roomID}"){
 
                         }
-                        composable(PLAYER_HOME_SCREEN){
+                        composable("$PLAYERS_SCREEN/{roomID}"){
 
                         }
                         composable(BANK_HOME_SCREEN){
@@ -60,8 +61,9 @@ class MainActivity : ComponentActivity() {
                         composable(SEND_MONEY_SCREEN){
 
                         }
-                        composable(ENTER_ROOM_SCREEN){
-
+                        composable("$ENTER_ROOM_SCREEN/{userName}"){
+                            val userName = it.arguments?.getString("userName")
+                            EnterRoomScreen(userName, navController)
                         }
                     }
 

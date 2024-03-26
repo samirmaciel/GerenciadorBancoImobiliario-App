@@ -1,6 +1,7 @@
 package com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen
 
 
+import android.inputmethodservice.Keyboard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -23,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.blue
@@ -38,6 +42,8 @@ fun InitialScreen(viewModel: InitialScreenViewModel, onNewGame: (String) -> Unit
 
         var userName by remember { mutableStateOf("") }
         val userNameIsValid = viewModel.userNameIsValid.collectAsState()
+
+        viewModel.validateUserName(userName)
 
         Text(modifier = Modifier
             .fillMaxWidth()
@@ -70,6 +76,7 @@ fun CustomTextField(
     modifier: Modifier,
     hint: String,
     value: String,
+    keyboardType: KeyboardType = KeyboardType.Text,
     onTextChange: (String) -> Unit
 ) {
     OutlinedTextField(
@@ -83,5 +90,8 @@ fun CustomTextField(
                 )
         }, value = value,
         onValueChange = onTextChange,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = keyboardType
+        )
     )
 }

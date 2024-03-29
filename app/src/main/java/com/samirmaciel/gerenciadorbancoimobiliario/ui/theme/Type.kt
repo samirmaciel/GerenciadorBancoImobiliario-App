@@ -44,5 +44,10 @@ val SfProRoundedTypography = Typography(
         fontFamily = SfProRounded,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp
-    )
+    ),
+   displayMedium = TextStyle(
+       fontFamily = SfProRounded,
+       fontWeight = FontWeight.SemiBold,
+       fontSize = 25.sp
+   )
 )

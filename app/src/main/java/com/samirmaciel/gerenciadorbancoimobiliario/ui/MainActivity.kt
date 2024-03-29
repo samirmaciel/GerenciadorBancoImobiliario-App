@@ -1,4 +1,4 @@
-package com.samirmaciel.gerenciadorbancoimobiliario
+package com.samirmaciel.gerenciadorbancoimobiliario.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,6 +18,7 @@ import com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen.InitialScree
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen.InitialScreenViewModel
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYERS_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYER_HOME_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayersScreen.PlayersScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.SEND_MONEY_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.TRANSACTION_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.GerenciadorBancoImobiliarioTheme
@@ -50,7 +51,8 @@ class MainActivity : ComponentActivity() {
 
                         }
                         composable("$PLAYERS_SCREEN/{roomID}"){
-
+                            val roomID = it.arguments?.getString("roomID")
+                            PlayersScreen(navController = navController, roomID = roomID)
                         }
                         composable(BANK_HOME_SCREEN){
 

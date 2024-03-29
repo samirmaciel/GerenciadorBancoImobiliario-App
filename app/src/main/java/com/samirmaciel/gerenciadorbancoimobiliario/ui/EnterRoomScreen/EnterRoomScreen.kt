@@ -35,14 +35,6 @@ fun EnterRoomScreen(userName: String?, navController: NavController) {
 
     Scaffold(topBar = { CustomTopBar("Room Enter", navController) }) {
 
-        var roomID by remember {
-            mutableStateOf("")
-        }
-
-        var buttonIsEnabled by remember {
-            mutableStateOf(false)
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -55,34 +47,10 @@ fun EnterRoomScreen(userName: String?, navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.Start),
-                text = "Olá ${userName}",
+                text = "Olá, ${userName}!",
                 color = Color.Companion.Black,
                 style = SfProRoundedTypography.titleLarge
             )
-            CustomTextField(
-                modifier = Modifier.fillMaxWidth(),
-                hint = "ID da Sala",
-                value = roomID,
-                keyboardType = KeyboardType.Number
-            ) {
-                roomID = it
-                buttonIsEnabled = it.isNotBlank()
-            }
-
-            Button(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = blue),
-                enabled = buttonIsEnabled,
-                shape = RoundedCornerShape(5.dp),
-                onClick = {
-                    navController.navigate(
-                        "$PLAYERS_SCREEN/${roomID}"
-                    )
-                }) {
-                Text(text = "Entrar na Sala", style = SfProRoundedTypography.labelMedium)
-            }
         }
-
     }
 }

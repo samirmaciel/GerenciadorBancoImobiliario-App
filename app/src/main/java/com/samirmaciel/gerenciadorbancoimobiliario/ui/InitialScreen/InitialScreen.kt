@@ -3,7 +3,6 @@ package com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,26 +40,22 @@ fun InitialScreen(viewModel: InitialScreenViewModel, onNewGame: (String) -> Unit
 
         Text(modifier = Modifier
             .fillMaxWidth()
-            .weight(1f)
             .padding(top = 50.dp), text = "Gerenciador Banco Imobiliário", style = SfProRoundedTypography.titleLarge)
 
-        CustomTextField(modifier = Modifier
-            .fillMaxWidth(), hint = "Seu nome", value = userName, onTextChange = { text ->
-            userName = text
-            viewModel.validateUserName(userName)
-        })
 
-        Row(modifier = Modifier
-            .weight(1f)
-            .padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.Top) {
-            Button(modifier = Modifier.weight(1f), colors = ButtonDefaults.buttonColors( containerColor = blue), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = { onNewGame(userName) }) {
-                Text(text = "Novo jogo", style = SfProRoundedTypography.labelMedium)
+        Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+            CustomTextField(modifier = Modifier
+                .fillMaxWidth(), hint = "Seu nome", value = userName, onTextChange = { text ->
+                userName = text
+                viewModel.validateUserName(userName)
+            })
+            Button(modifier = Modifier.fillMaxWidth().padding(top = 10.dp), colors = ButtonDefaults.buttonColors( containerColor = blue), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = { onNewGame(userName) }) {
+                Text(text = "Criar um novo Jogo", style = SfProRoundedTypography.labelMedium)
             }
-            Button(modifier = Modifier.weight(1f), colors = ButtonDefaults.buttonColors( containerColor = dark_yellow), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = {onEnterGame(userName)}) {
+            Button(modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors( containerColor = dark_yellow), enabled = userNameIsValid.value, shape = RoundedCornerShape(5.dp), onClick = {onEnterGame(userName)}) {
                 Text(text = "Entrar em um jogo", style = SfProRoundedTypography.labelMedium.copy(color = if(userNameIsValid.value) Color.Black else Color.Gray))
             }
         }
-
 
     }
 }

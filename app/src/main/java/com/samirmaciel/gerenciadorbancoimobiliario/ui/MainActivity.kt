@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.BANK_HOME_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.ENTER_ROOM_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.EnterRoomScreen.EnterRoomScreen
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.HomeScreen.HomeScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.INITIAL_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen.InitialScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.InitialScreen.InitialScreenViewModel
@@ -36,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     
                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = INITIAL_SCREEN ){
+                    NavHost(navController = navController, startDestination = PLAYER_HOME_SCREEN ){
                         composable(INITIAL_SCREEN){
 
                             val viewModel by viewModel<InitialScreenViewModel>()
@@ -47,8 +48,8 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(ENTER_ROOM_SCREEN + "/$userName")
                             })
                         }
-                        composable("$PLAYER_HOME_SCREEN/{roomID}"){
-
+                        composable(PLAYER_HOME_SCREEN){
+                            HomeScreen()
                         }
                         composable("$PLAYERS_SCREEN/{roomID}"){
                             val roomID = it.arguments?.getString("roomID")

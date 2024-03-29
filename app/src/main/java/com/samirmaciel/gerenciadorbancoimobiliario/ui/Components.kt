@@ -2,6 +2,7 @@ package com.samirmaciel.gerenciadorbancoimobiliario.ui
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
+import androidx.annotation.ColorInt
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.dark_yellow
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.light_white
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -51,6 +53,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.samirmaciel.gerenciadorbancoimobiliario.domain.models.MoneyTransaction
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.blue
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.light_black
 
@@ -63,19 +66,7 @@ fun PlayerCard(player: Player, enabledSendMoney: Boolean = false, onSendMoney: (
             .padding(10.dp), verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .background(light_white, CircleShape), contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "${player.name[0]}",
-                style = SfProRoundedTypography.titleSmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-            )
-        }
+        PlayerImage(playerInitial = player.name[0], playerColor = player.color)
 
         Column(
             modifier = Modifier
@@ -237,6 +228,7 @@ fun BluetoothConnectionList(
     }
 }
 
+@SuppressLint("MissingPermission")
 @Composable
 fun DeviceConnectionCard(device: BluetoothDevice, onClickConnection: (BluetoothDevice) -> Unit){
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -248,10 +240,90 @@ fun DeviceConnectionCard(device: BluetoothDevice, onClickConnection: (BluetoothD
             contentColor = Color.Black
         ), onClick = { onClickConnection(device) }) {
             Icon(
-                modifier = Modifier.padding(0.dp).rotate(90f),
+                modifier = Modifier
+                    .padding(0.dp)
+                    .rotate(90f),
                 painter = painterResource(id = R.drawable.send_icon),
                 contentDescription = "Connect bluetooth"
             )
         }
+    }
+}
+
+@Composable
+fun PlayerImage(modifier: Modifier = Modifier, size: Dp = 40.dp, playerInitial: Char, playerColor: Color = light_white){
+
+    Box(modifier = modifier){
+        Box(
+            modifier = Modifier
+                .size(size)
+                .background(playerColor, CircleShape), contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = playerInitial.toString(),
+                style = SfProRoundedTypography.titleSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun TransactionsList(moneyTransactionList: List<MoneyTransaction>) {
+    LazyColumn {
+        items(moneyTransactionList) { moneyTransaction ->
+            MoneyTransactionCard(moneyTransaction = moneyTransaction)
+        }
+    }
+}
+
+@Composable
+fun MoneyTransactionCard(moneyTransaction: MoneyTransaction) {
+    val sender = moneyTransaction.playerSender
+    val receiver = moneyTransaction.playerReceiver
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+            PlayerImage(
+                modifier = Modifier.padding(end = 10.dp),
+                size = 30.dp,
+                playerInitial = sender.name[0],
+                playerColor = sender.color
+            )
+            Text(
+                modifier = Modifier.padding(end = 10.dp),
+                text = sender.name,
+                style = SfProRoundedTypography.titleSmall
+            )
+            Icon(
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .rotate(90f),
+                painter = painterResource(id = R.drawable.send_icon),
+                contentDescription = "Send Icon"
+            )
+            Text(
+                modifier = Modifier.padding(end = 10.dp),
+                text = receiver.name,
+                style = SfProRoundedTypography.titleSmall
+            )
+            PlayerImage(
+                playerInitial = receiver.name[0],
+                size = 30.dp,
+                playerColor = receiver.color
+            )
+        }
+
+        Text(
+            modifier = Modifier,
+            text = moneyTransaction.value.toString(),
+            style = SfProRoundedTypography.labelMedium
+        )
     }
 }

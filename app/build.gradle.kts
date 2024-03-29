@@ -56,6 +56,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("io.insert-koin:koin-android:3.5.0")
     implementation("com.airbnb.android:lottie-compose:$lottieVersion")
+    implementation("androidx.compose.material:material:1.6.4")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

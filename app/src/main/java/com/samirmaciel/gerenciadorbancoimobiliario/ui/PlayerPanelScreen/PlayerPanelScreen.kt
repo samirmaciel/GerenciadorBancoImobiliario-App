@@ -1,4 +1,4 @@
-package com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerPanel
+package com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerPanelScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

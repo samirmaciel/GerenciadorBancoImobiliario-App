@@ -25,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,7 +32,8 @@ import androidx.navigation.compose.rememberNavController
 import com.samirmaciel.gerenciadorbancoimobiliario.R
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYERS_LIST_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYER_PANEL_SCREEN
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerPanel.PlayerPanelScreen
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerPanelScreen.PlayerPanelScreen
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.SharedViewModel
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.TRANSACTIONS_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.bottomNavigation_disable
@@ -41,9 +41,8 @@ import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.light_white
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: SharedViewModel) {
 
     val navController = rememberNavController()
 

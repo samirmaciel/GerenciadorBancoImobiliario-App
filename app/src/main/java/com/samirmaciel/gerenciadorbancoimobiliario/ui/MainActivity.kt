@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     val sharedViewModel by viewModel<SharedViewModel>()
                     
                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = INITIAL_SCREEN ){
+                    NavHost(navController = navController, startDestination = HOME_SCREEN ){
                         composable(INITIAL_SCREEN){
                             InitialScreen(sharedViewModel, onNewGame = {
                                 navController.navigate(GAME_ROOM_SCREEN)

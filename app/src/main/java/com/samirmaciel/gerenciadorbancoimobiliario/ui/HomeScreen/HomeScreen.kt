@@ -30,11 +30,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.samirmaciel.gerenciadorbancoimobiliario.R
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.BANK_PANEL_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.INITIAL_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYERS_LIST_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYER_PANEL_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerPanelScreen.PlayerPanelScreen
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayersListScreen.PlayersListScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.SharedViewModel
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.TRANSACTIONS_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.TransactionsScreen.TransactionsScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.bottomNavigation_disable
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.light_white
@@ -57,18 +61,10 @@ fun HomeScreen(viewModel: SharedViewModel) {
                 PlayerPanelScreen()
             }
             composable(TRANSACTIONS_SCREEN) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Color.Blue)) {
-
-                }
+                TransactionsScreen(viewModel)
             }
             composable(PLAYERS_LIST_SCREEN) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Color.Yellow)) {
-
-                }
+                PlayersListScreen(viewModel)
             }
 
         }

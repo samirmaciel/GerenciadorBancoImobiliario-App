@@ -271,8 +271,8 @@ fun PlayerImage(modifier: Modifier = Modifier, size: Dp = 40.dp, playerInitial: 
 }
 
 @Composable
-fun TransactionsList(moneyTransactionList: List<MoneyTransaction>) {
-    LazyColumn {
+fun TransactionsList(modifier: Modifier = Modifier, moneyTransactionList: List<MoneyTransaction>) {
+    LazyColumn(modifier = modifier) {
         items(moneyTransactionList) { moneyTransaction ->
             MoneyTransactionCard(moneyTransaction = moneyTransaction)
         }

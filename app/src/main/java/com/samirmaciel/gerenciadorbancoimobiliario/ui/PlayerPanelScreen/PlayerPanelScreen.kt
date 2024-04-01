@@ -114,6 +114,6 @@ fun Content(modifier: Modifier = Modifier) {
             style = SfProRoundedTypography.titleSmall
         )
 
-        TransactionsList(listOf(Mock.getMoneyTransaction()))
+        TransactionsList(moneyTransactionList = listOf(Mock.getMoneyTransaction()))
     }
 }

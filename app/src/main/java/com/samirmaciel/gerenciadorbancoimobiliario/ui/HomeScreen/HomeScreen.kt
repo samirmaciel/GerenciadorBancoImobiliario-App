@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,7 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.samirmaciel.gerenciadorbancoimobiliario.R
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.BANK_PANEL_SCREEN
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.INITIAL_SCREEN
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.BankPanelScreen.BankPanelScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYERS_LIST_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYER_PANEL_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerPanelScreen.PlayerPanelScreen
@@ -40,7 +39,10 @@ import com.samirmaciel.gerenciadorbancoimobiliario.ui.SharedViewModel
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.TRANSACTIONS_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.TransactionsScreen.TransactionsScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.blue
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.bottomNavigation_bank_disable
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.bottomNavigation_disable
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.dark_yellow
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.light_white
 
 
@@ -51,7 +53,7 @@ fun HomeScreen(viewModel: SharedViewModel) {
     val navController = rememberNavController()
 
     Scaffold(bottomBar = {
-        CustomBottomNavigation() {
+        CustomBottomNavigation(isBank = true) {
             navController.navigate(it)
         }
     }) {
@@ -67,6 +69,10 @@ fun HomeScreen(viewModel: SharedViewModel) {
                 PlayersListScreen(viewModel)
             }
 
+            composable(BANK_PANEL_SCREEN) {
+                BankPanelScreen()
+            }
+
         }
     }
 
@@ -74,7 +80,7 @@ fun HomeScreen(viewModel: SharedViewModel) {
 
 
 @Composable
-fun CustomBottomNavigation(onSelection: (String) -> Unit) {
+fun CustomBottomNavigation(isBank: Boolean = false, onSelection: (String) -> Unit) {
 
     var currentSelection by remember {
         mutableStateOf(PLAYER_PANEL_SCREEN)
@@ -99,7 +105,7 @@ fun CustomBottomNavigation(onSelection: (String) -> Unit) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                IconButton(modifier = Modifier.padding(start = 20.dp), onClick = {
+                IconButton( onClick = {
                     currentSelection = PLAYER_PANEL_SCREEN
                     onSelection(currentSelection)
                 }) {
@@ -131,7 +137,7 @@ fun CustomBottomNavigation(onSelection: (String) -> Unit) {
                         )
                     }
                 }
-                IconButton(modifier = Modifier.padding(end = 20.dp), onClick = {
+                IconButton(onClick = {
                     currentSelection = PLAYERS_LIST_SCREEN
                     onSelection(currentSelection)
                 }) {
@@ -147,6 +153,26 @@ fun CustomBottomNavigation(onSelection: (String) -> Unit) {
                         )
                     }
                 }
+
+                if(isBank){
+                    IconButton( onClick = {
+                        currentSelection = BANK_PANEL_SCREEN
+                        onSelection(currentSelection)
+                    }) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.bank_icon),
+                                contentDescription = "Banco",
+                                tint = if (currentSelection != BANK_PANEL_SCREEN) bottomNavigation_bank_disable else dark_yellow
+                            )
+                            Text(
+                                text = "Banco",
+                                style = SfProRoundedTypography.titleSmall.copy(color = if (currentSelection != BANK_PANEL_SCREEN) bottomNavigation_bank_disable else dark_yellow)
+                            )
+                        }
+                    }
+                }
+
             }
         }
     }

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.CustomTextField
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.SharedViewModel
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerViewModel
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.blue
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.dark_yellow
@@ -28,7 +28,7 @@ import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.dark_yellow
 
 @Composable
 fun InitialScreen(
-    viewModel: SharedViewModel,
+    viewModel: PlayerViewModel,
     onNewGame: () -> Unit,
     onEnterGame: () -> Unit
 ) {

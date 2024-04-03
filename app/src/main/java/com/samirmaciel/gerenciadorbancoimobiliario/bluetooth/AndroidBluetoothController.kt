@@ -41,10 +41,10 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
     private var dataTransferService: BluetoothDataTransferService? = null
 
     private val _isConnected = MutableStateFlow(false)
+    private val _scannedDevices = MutableStateFlow<List<BluetoothDevice>>(emptyList())
     override val isConnected: StateFlow<Boolean>
         get() = _isConnected.asStateFlow()
 
-    private val _scannedDevices = MutableStateFlow<List<BluetoothDevice>>(emptyList())
     override val scannedDevices: StateFlow<List<BluetoothDevice>>
         get() = _scannedDevices.asStateFlow()
 
@@ -52,9 +52,10 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
     override val errors: SharedFlow<String>
         get() = _errors.asSharedFlow()
 
+    @SuppressLint("MissingPermission")
     private val foundDeviceReceiver = FoundDeviceReceiver { device ->
         _scannedDevices.update { devices ->
-            val newDevice = if (true) device else null //device.bluetoothClass.deviceClass == 524
+            val newDevice = if (device.bluetoothClass.deviceClass == 524) device else null
 
             if (newDevice !in devices && newDevice != null) {
                 devices + newDevice
@@ -122,7 +123,7 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
             }
 
             currentServerSocket = bluetoothAdapter?.listenUsingRfcommWithServiceRecord(
-                "chat_service",
+                "bank_service",
                 UUID.fromString(SERVICE_UUID)
             )
 
@@ -137,11 +138,7 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
                     null
                 }
 
-                emit(TransferConnectionResult.ConnectionEstablished)
                 currentClientSocket?.let {
-                    Log.i("DeviceTESTE", "BluetoothServer Connected with ${it.remoteDevice.name}")
-                    //currentServerSocket?.close()
-                    Log.i("DeviceTESTE", "BluetoothServer close server")
                     val service = BluetoothDataTransferService(it)
                     dataTransferService = service
 
@@ -160,7 +157,7 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
     }
 
     @SuppressLint("MissingPermission")
-    override fun connectToDevice(device: BluetoothDevice): Flow<TransferConnectionResult> {
+    override fun connectToDevice(device: BluetoothDevice, player: Player?): Flow<TransferConnectionResult> {
         return flow {
             if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
                 throw SecurityException("No BLUETOOTH_CONNECT permission")
@@ -178,6 +175,11 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
                     socket.connect()
 
                     emit(TransferConnectionResult.ConnectionEstablished)
+
+                    player?.let {
+                        sendMessage(player)
+                    }
+
 
                     BluetoothDataTransferService(socket).also {
                         dataTransferService = it
@@ -199,7 +201,7 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
     }
 
     @SuppressLint("MissingPermission")
-    override suspend fun trySendLine(line: Player): Player? {
+    override suspend fun sendMessage(message: Any): Any? {
         if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
             return null
         }
@@ -208,9 +210,9 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
             return null
         }
 
-        dataTransferService?.sendLine(line)
+        dataTransferService?.sendMessage(message)
 
-        return line
+        return message
     }
 
     override fun closeConnection() {
@@ -241,14 +243,16 @@ class AndroidBluetoothController(val context: Context) : BluetoothController {
             ?.mapNotNull {
                 it
             }
-            ?.also { userGameList ->
+            ?.also { devices ->
                 _scannedDevices.update { sourceUserGameList ->
                     val newUserGameList = sourceUserGameList.toMutableList()
-                    for (item in userGameList) {
-                        if (item in sourceUserGameList) {
+                    for (device in devices) {
+                        if (device in sourceUserGameList) {
                             continue
                         } else {
-                            newUserGameList.add(item)
+                            if(device.bluetoothClass.deviceClass == 524){
+                                newUserGameList.add(device)
+                            }
                         }
                     }
                     newUserGameList

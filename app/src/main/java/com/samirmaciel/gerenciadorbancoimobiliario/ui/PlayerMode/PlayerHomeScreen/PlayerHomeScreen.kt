@@ -1,4 +1,4 @@
-package com.samirmaciel.gerenciadorbancoimobiliario.ui.HomeScreen
+package com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerMode.PlayerHomeScreen
 
 
 import android.annotation.SuppressLint
@@ -29,31 +29,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.samirmaciel.gerenciadorbancoimobiliario.R
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.BANK_PANEL_SCREEN
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.BankPanelScreen.BankPanelScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYERS_LIST_SCREEN
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PLAYER_PANEL_SCREEN
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerPanelScreen.PlayerPanelScreen
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayersListScreen.PlayersListScreen
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.SharedViewModel
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerMode.PlayerPanelScreen.PlayerPanelScreen
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerMode.PlayerPlayersListScreen.PlayerPlayersListScreen
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerViewModel
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.TRANSACTIONS_SCREEN
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.TransactionsScreen.TransactionsScreen
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerMode.PlayerTransactionsScreen.PlayerTransactionsScreen
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.blue
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.bottomNavigation_bank_disable
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.bottomNavigation_disable
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.dark_yellow
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.light_white
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(viewModel: SharedViewModel) {
+fun PlayerHomeScreen(viewModel: PlayerViewModel) {
 
     val navController = rememberNavController()
 
     Scaffold(bottomBar = {
-        CustomBottomNavigation(isBank = true) {
+        CustomBottomNavigation() {
             navController.navigate(it)
         }
     }) {
@@ -63,16 +58,11 @@ fun HomeScreen(viewModel: SharedViewModel) {
                 PlayerPanelScreen()
             }
             composable(TRANSACTIONS_SCREEN) {
-                TransactionsScreen(viewModel)
+                PlayerTransactionsScreen()
             }
             composable(PLAYERS_LIST_SCREEN) {
-                PlayersListScreen(viewModel)
+                PlayerPlayersListScreen(viewModel = viewModel)
             }
-
-            composable(BANK_PANEL_SCREEN) {
-                BankPanelScreen()
-            }
-
         }
     }
 
@@ -80,7 +70,7 @@ fun HomeScreen(viewModel: SharedViewModel) {
 
 
 @Composable
-fun CustomBottomNavigation(isBank: Boolean = false, onSelection: (String) -> Unit) {
+fun CustomBottomNavigation(onSelection: (String) -> Unit) {
 
     var currentSelection by remember {
         mutableStateOf(PLAYER_PANEL_SCREEN)
@@ -153,26 +143,6 @@ fun CustomBottomNavigation(isBank: Boolean = false, onSelection: (String) -> Uni
                         )
                     }
                 }
-
-                if(isBank){
-                    IconButton( onClick = {
-                        currentSelection = BANK_PANEL_SCREEN
-                        onSelection(currentSelection)
-                    }) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.bank_icon),
-                                contentDescription = "Banco",
-                                tint = if (currentSelection != BANK_PANEL_SCREEN) bottomNavigation_bank_disable else dark_yellow
-                            )
-                            Text(
-                                text = "Banco",
-                                style = SfProRoundedTypography.titleSmall.copy(color = if (currentSelection != BANK_PANEL_SCREEN) bottomNavigation_bank_disable else dark_yellow)
-                            )
-                        }
-                    }
-                }
-
             }
         }
     }

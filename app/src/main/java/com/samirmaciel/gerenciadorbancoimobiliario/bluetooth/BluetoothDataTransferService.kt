@@ -16,7 +16,7 @@ import java.lang.ClassCastException
 class BluetoothDataTransferService(
     private val socket: BluetoothSocket
 ) {
-    fun listenForIncomingMessages(): Flow<Player> {
+    fun listenForIncomingMessages(): Flow<Any> {
         return flow {
             if(!socket.isConnected) {
                 return@flow
@@ -28,7 +28,6 @@ class BluetoothDataTransferService(
                     val result = objectInputStream.readObject()
 
                     if(result is Player){
-
                         emit(
                             result
                         )
@@ -43,12 +42,12 @@ class BluetoothDataTransferService(
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun sendLine(line: Player): Boolean {
+    suspend fun sendMessage(message: Any): Boolean {
         return withContext(Dispatchers.IO) {
             try {
                 val outputStream = socket.outputStream
                 val objectOutputStream = ObjectOutputStream(outputStream)
-                objectOutputStream.writeObject(line)
+                objectOutputStream.writeObject(message)
                 objectOutputStream.flush()
 
             } catch(e: IOException) {

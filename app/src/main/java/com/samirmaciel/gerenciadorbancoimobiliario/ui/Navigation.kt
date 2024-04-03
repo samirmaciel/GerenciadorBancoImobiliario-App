@@ -3,10 +3,10 @@ package com.samirmaciel.gerenciadorbancoimobiliario.ui
 
 const val INITIAL_SCREEN = "InitialScreen"
 const val CONNECTION_SCREEN = "ConnectionScreen"
-const val GAME_ROOM_SCREEN = "GameRoomScreen"
-const val HOME_SCREEN = "HomeScreen"
+const val PLAYER_GAME_ROOM_SCREEN = "PlayerGameRoomScreen"
+const val SERVER_GAME_ROOM_SCREEN = "ServerGameRoomScreen"
+const val SERVER_HOME_SCREEN = "ServerHomeScreen"
 const val PLAYER_HOME_SCREEN = "PlayerHomeScreen"
-const val BANK_HOME_SCREEN = "BankHomeScreen"
 
 const val PLAYER_PANEL_SCREEN = "PlayerPanelScreen"
 const val BANK_PANEL_SCREEN = "BankPanelScreen"

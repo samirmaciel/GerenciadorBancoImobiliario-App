@@ -9,6 +9,6 @@ data class Player(
     val name: String,
     val type: String,
     val bluetoothDevice: BluetoothDevice?,
-    val color: Color = light_white,
-    val image: Int?
+    var color: Color = light_white,
+    var image: Int? = null
 )

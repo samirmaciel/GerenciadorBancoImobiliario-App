@@ -1,4 +1,4 @@
-package com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayersListScreen
+package com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerMode.PlayerPlayersListScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,11 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.samirmaciel.gerenciadorbancoimobiliario.dto.Mock
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerCard
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.SharedViewModel
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerViewModel
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
 
 @Composable
-fun PlayersListScreen(viewModel: SharedViewModel) {
+fun PlayerPlayersListScreen(viewModel: PlayerViewModel) {
     Column() {
         TopBar(title = "Jogadores")
         LazyColumn(modifier = Modifier.padding(top = 20.dp)) {

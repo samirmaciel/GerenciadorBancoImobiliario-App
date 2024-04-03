@@ -1,4 +1,4 @@
-package com.samirmaciel.gerenciadorbancoimobiliario.ui.GameRoomScreen
+package com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerMode.PlayerGameRoomScreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -26,13 +26,13 @@ import androidx.navigation.NavController
 import com.samirmaciel.gerenciadorbancoimobiliario.R
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.AnimationLottie
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.CustomTopBar
-import com.samirmaciel.gerenciadorbancoimobiliario.ui.SharedViewModel
+import com.samirmaciel.gerenciadorbancoimobiliario.ui.PlayerViewModel
 import com.samirmaciel.gerenciadorbancoimobiliario.ui.theme.SfProRoundedTypography
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun GameRoomScreen(navController: NavController, viewModel: SharedViewModel) {
+fun PlayerGameRoomScreen(navController: NavController, viewModel: PlayerViewModel) {
 
     Scaffold(
         topBar = { CustomTopBar("Jogadores", navController = navController) }
@@ -63,6 +63,7 @@ fun GameRoomScreen(navController: NavController, viewModel: SharedViewModel) {
                         R.raw.waiting_player
                     )
                 }
+
             }
 
             Button(

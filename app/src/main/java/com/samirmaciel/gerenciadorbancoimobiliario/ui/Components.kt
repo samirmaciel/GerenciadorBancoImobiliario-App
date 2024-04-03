@@ -231,8 +231,8 @@ fun BluetoothConnectionList(
 @SuppressLint("MissingPermission")
 @Composable
 fun DeviceConnectionCard(device: BluetoothDevice, onClickConnection: (BluetoothDevice) -> Unit){
-    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Text(modifier = Modifier.weight(1f), text = device.name, style = SfProRoundedTypography.titleMedium.copy(color = Color.Black))
+    Row(modifier = Modifier.fillMaxWidth().padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(modifier = Modifier.weight(1f), text = device.name ?: "null", style = SfProRoundedTypography.titleMedium.copy(color = Color.Black))
         IconButton(modifier = Modifier
             .background(blue, RoundedCornerShape(5.dp))
             .height(40.dp)
